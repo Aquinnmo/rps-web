@@ -7,6 +7,7 @@ import {
   MOVE_EMOJI,
   OUTCOME_MESSAGES,
   randomComputerMove,
+  smartComputerMove,
   type GameOutcome,
   type Move,
 } from "../lib/game";
@@ -47,7 +48,7 @@ export default function Home() {
   const outcomeMessage = outcome ? OUTCOME_MESSAGES[outcome] : "\u00A0";
 
   const handlePlayerMove = useCallback((playerMove: Move) => {
-    const nextComputerMove = randomComputerMove();
+    const nextComputerMove = smartComputerMove();
     const nextOutcome = determineOutcome(playerMove, nextComputerMove);
 
     setComputerMove(nextComputerMove);
