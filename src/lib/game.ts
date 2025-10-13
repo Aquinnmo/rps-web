@@ -117,3 +117,28 @@ export const singleOrderMarkov = (): Move =>
   //if a tie apparently they cycle one more
   return MOVES[(MOVES.indexOf(lastTurn.player) + 2) % 3]
 };
+
+export type GameVersion = 0 | 1;
+
+export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
+  0: randomComputerMove,
+  1: smartComputerMove,
+};
+
+export const getComputerMoveForVersion = (
+  version: GameVersion,
+  strategies: Partial<Record<GameVersion, () => Move>> = {},
+): Move => {
+  const mergedStrategies: Record<GameVersion, () => Move> = {
+    ...COMPUTER_MOVE_STRATEGIES,
+    ...strategies,
+  };
+
+  const strategy = mergedStrategies[version];
+
+  if (!strategy) {
+    throw new Error(`Unsupported game version: ${version}`);
+  }
+
+  return strategy();
+};
