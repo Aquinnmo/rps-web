@@ -8,6 +8,8 @@ export const MOVE_EMOJI: Record<Move, string> = {
   scissors: "✌️",
 };
 
+let roundCount = 0;
+
 export type GameOutcome = "win" | "lose" | "draw";
 
 export const OUTCOME_MESSAGES: Record<GameOutcome, string> = {
@@ -21,10 +23,48 @@ export const randomComputerMove = (): Move => {
   return MOVES[index];
 };
 
+export const smartComputerMove = (): Move => {
+  //100 possible outcomes, can give a range of probilities for each move
+  const probability = Math.floor(Math.random() * 100);
+  if (roundCount === 0) {
+    //40% probability of user first playing rock --> 40% play paper
+    if (probability < 40)
+    {
+      return MOVES[1];
+    }
+    else if (probability < 70)
+    {
+      return MOVES[0];
+    }
+    else
+    {
+      return MOVES[2];
+    }
+  }
+  else
+  {
+    if (probability < 35)
+    {
+      return MOVES[1];
+    }
+    else if (probability < 70)
+    {
+      return MOVES[0];
+    }
+    else
+    {
+      return MOVES[2];
+    }
+  }
+};
+
 export const determineOutcome = (
   playerMove: Move,
   computerMove: Move,
 ): GameOutcome => {
+
+  roundCount += 1;
+
   if (playerMove === computerMove) {
     return "draw";
   }
