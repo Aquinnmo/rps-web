@@ -2,12 +2,13 @@ import Link from "next/link";
 
 const sections = [
   {
-    title: "Kindergarden – Weighted Random Probabilities",
+    title: "Junior High – Order Three Markov Chain",
     summary:
-      "The original computer opponent pulls from a simple random generator. The probability of the computer's move is based on empirical data synthesized from multiple studies.",
+      "Version 2 starts with a weighted opening move for the first four turns. It then uses the last three moves to predict the next move.",
     details: [
-      "Internally the strategy selects one of the three moves with the probabilities:  31% rock, 36% paper, and 33% scissors.",
-      "Because each turn is independent, the computer never learns from player behavior, making it predictable only in the sense that it never adapts.",
+      "If the computer has seen the pattern before and the user clearly chooses one of the options more than the others it will play the counter to that mostly likely move.",
+      "If the computer has seen the pattern before and the user chooses is equally likely to choose two different moves, it falls back on the wieghted probabilities model to choose between the two options and plays the counter to that.",
+      "If the computer has never seen the pattern before or the user is equally as likely to choose every move, it falls back on the weighted probabilities model.",
     ],
   },
   {
@@ -18,6 +19,15 @@ const sections = [
       "If the player just won, the model assumes they will repeat the winning move and therefore throws the counter to that move. Ex. If the player wins with rock, the computer will play paper.",
       "If the player just lost, it expects them to switch to the move that would have beaten the computer and counters that instead. Ex. If the player loses with paper, the computer will play rock.",
       "After a draw, it anticipates that the player will play what wins against what was just thrown. Ex. There is a tie with scissors, the computer will play paper.",
+    ],
+  },
+  {
+    title: "Kindergarden – Weighted Random Probabilities",
+    summary:
+      "The original computer opponent pulls from a simple random generator. The probability of the computer's move is based on empirical data synthesized from multiple studies.",
+    details: [
+      "Internally the strategy selects one of the three moves with the probabilities:  31% rock, 36% paper, and 33% scissors.",
+      "Because each turn is independent, the computer never learns from player behavior, making it predictable only in the sense that it never adapts.",
     ],
   },
 ];
