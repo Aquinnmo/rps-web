@@ -73,26 +73,33 @@ export default function Home() {
   );
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center gap-12 bg-transparent text-center">
-      <div className="absolute top-6 flex w-full justify-center">
+    <div className="flex min-h-screen w-full flex-col bg-transparent">
+      <div
+        className="flex flex-col items-center gap-4 px-6 text-center sm:pt-24"
+        style={{ paddingTop: "calc(5rem + env(safe-area-inset-top))" }}
+      >
         <label
           htmlFor="game-version"
-          className="relative flex items-center gap-3 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white shadow"
+          className="relative flex w-full max-w-md flex-col items-stretch gap-2 rounded-3xl bg-white/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow sm:max-w-2xl sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:text-base"
         >
-          <span>Brain Power Level</span>
-          <div className="relative">
+          <span className="text-center sm:text-left">Brain Power Level</span>
+          <div className="relative w-full sm:w-auto">
             <select
               id="game-version"
               value={gameVersion}
               onChange={handleVersionChange}
-              className="appearance-none rounded-full bg-white/20 px-4 py-1 pr-8 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:text-[#fefce8] [&>option]:py-2 [&>option]:px-4 [&>option]:font-medium [&>option]:checked:bg-[#166534] [&>option]:hover:bg-[#166534]"
+              className="w-full appearance-none rounded-full bg-white/20 px-4 py-2 pr-10 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:px-4 [&>option]:py-2 [&>option]:font-medium [&>option]:text-[#fefce8] [&>option]:hover:bg-[#166534] [&>option]:checked:bg-[#166534]"
             >
-              <option value={0} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Kindergarden</option>
-              <option value={1} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Elementary</option>
+              <option value={0} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                Kindergarden
+              </option>
+              <option value={1} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                Elementary
+              </option>
             </select>
             {/* custom caret to match site style */}
             <svg
-              className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-white/80"
+              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/80 sm:right-2"
               viewBox="0 0 20 20"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -103,22 +110,22 @@ export default function Home() {
           </div>
         </label>
       </div>
-      <div className="text-[clamp(8rem,18vw,14rem)] font-semibold leading-none">
-        {lastMoveEmoji}
-      </div>
-      <p className="text-3xl font-semibold uppercase tracking-wide">{outcomeMessage}</p>
-      <div className="flex flex-wrap justify-center gap-6">
-        {MOVES.map((move) => (
-          <button
-            key={move}
-            type="button"
-            onClick={() => handlePlayerMove(move)}
-            className="h-24 w-24 rounded-full bg-white/10 text-6xl text-white shadow-lg transition hover:bg-white/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/60"
-            aria-label={move}
-          >
-            {MOVE_EMOJI[move]}
-          </button>
-        ))}
+      <div className="flex flex-1 flex-col items-center justify-center gap-12 px-6 pb-16 text-center">
+        <div className="text-[clamp(8rem,18vw,14rem)] font-semibold leading-none">{lastMoveEmoji}</div>
+        <p className="text-3xl font-semibold uppercase tracking-wide">{outcomeMessage}</p>
+        <div className="flex flex-wrap justify-center gap-6">
+          {MOVES.map((move) => (
+            <button
+              key={move}
+              type="button"
+              onClick={() => handlePlayerMove(move)}
+              className="h-24 w-24 rounded-full bg-white/10 text-6xl text-white shadow-lg transition hover:bg-white/20 focus:outline-none focus-visible:ring-4 focus-visible:ring-white/60"
+              aria-label={move}
+            >
+              {MOVE_EMOJI[move]}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
