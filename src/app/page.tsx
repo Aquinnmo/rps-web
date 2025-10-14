@@ -89,7 +89,7 @@ export default function Home() {
       ? `${record.wins} - ${record.ties} - ${record.losses} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
       : "Wins - Ties - Losses";
   const streakDisplay =
-    streak.outcome !== null ? `${getStreakBadge(streak.outcome)} ${streak.count}` : "—";
+    streak.outcome !== null ? `${getStreakBadge(streak.outcome)}${streak.count}` : "—";
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-transparent">
