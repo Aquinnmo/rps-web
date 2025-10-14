@@ -13,7 +13,7 @@ const sections = [
   {
     title: "Elementary – Single Order Markov Model",
     summary:
-      "Version 1 starts with a weighted opening move from Version 0 and then adapts based on the players last turn. It does this through a single order Markov chain.",
+      "Version 1 starts with a weighted opening move from Version 0 and then adapts based on the players last turn. It does this through a single-order Markov chain.",
     details: [
       "If the player just won, the model assumes they will repeat the winning move and therefore throws the counter to that move. Ex. If the player wins with rock, the computer will play paper.",
       "If the player just lost, it expects them to switch to the move that would have beaten the computer and counters that instead. Ex. If the player loses with paper, the computer will play rock.",
