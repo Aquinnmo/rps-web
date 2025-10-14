@@ -2,22 +2,22 @@ import Link from "next/link";
 
 const sections = [
   {
-    title: "Version 0 – Weighted Random",
+    title: "Kindergarden – Weighted Random Probabilities",
     summary:
-      "The original computer opponent pulls from a simple random generator. Every round is independent, so the computer has an equal chance to throw rock, paper, or scissors regardless of how the player has been performing.",
+      "The original computer opponent pulls from a simple random generator. The probability of the computer's move is based on empirical data synthesized from multiple studies.",
     details: [
-      "Internally the strategy selects one of the three moves with uniform probability using Math.random().",
+      "Internally the strategy selects one of the three moves with the probabilities:  31% rock, 36% paper, and 33% scissors.",
       "Because each turn is independent, the computer never learns from player behavior, making it predictable only in the sense that it never adapts.",
     ],
   },
   {
-    title: "Version 1 – Adaptive Markov Model",
+    title: "Elementary – Single Order Markov Model",
     summary:
-      "The newer strategy starts with a weighted opening move and then adapts based on recent history. It tries to exploit common player reactions to previous outcomes.",
+      "Version 1 starts with a weighted opening move from Version 0 and then adapts based on the players last turn. It does this through a single order Markov chain.",
     details: [
-      "On the very first round the computer favors paper (36%), scissors (33%), and then rock (31%) to mirror how frequently people typically start.",
-      "After at least one completed round it falls back to a single-order Markov chain. The computer reviews the last outcome and predicts how the player is likely to respond next.",
-      "If the player just won, the model assumes they will repeat the winning move and therefore throws the counter that beats it. If the player just lost, it expects them to switch to the move that would have beaten the computer and counters that instead. After a draw, it anticipates a small rotation and throws the move that would beat that follow-up.",
+      "If the player just won, the model assumes they will repeat the winning move and therefore throws the counter to that move. Ex. If the player wins with rock, the computer will play paper.",
+      "If the player just lost, it expects them to switch to the move that would have beaten the computer and counters that instead. Ex. If the player loses with paper, the computer will play rock.",
+      "After a draw, it anticipates that the player will play what wins against what was just thrown. Ex. There is a tie with scissors, the computer will play paper.",
     ],
   },
 ];

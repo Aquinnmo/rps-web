@@ -79,7 +79,7 @@ export default function Home() {
           htmlFor="game-version"
           className="relative flex items-center gap-3 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white shadow"
         >
-          <span>Version</span>
+          <span>Brain Power Level</span>
           <div className="relative">
             <select
               id="game-version"
@@ -87,8 +87,8 @@ export default function Home() {
               onChange={handleVersionChange}
               className="appearance-none rounded-full bg-white/20 px-4 py-1 pr-8 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:text-[#fefce8] [&>option]:py-2 [&>option]:px-4 [&>option]:font-medium [&>option]:checked:bg-[#166534] [&>option]:hover:bg-[#166534]"
             >
-              <option value={0} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Weighted Random</option>
-              <option value={1} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">October 13, 2025</option>
+              <option value={0} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Kindergarden</option>
+              <option value={1} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Elementary</option>
             </select>
             {/* custom caret to match site style */}
             <svg
