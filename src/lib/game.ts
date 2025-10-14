@@ -1,3 +1,5 @@
+import { lastThreeHistory } from "./markovDictionaries";
+
 export const MOVES = ["rock", "paper", "scissors"] as const;
 
 export type Move = (typeof MOVES)[number];
@@ -12,6 +14,13 @@ export let history: Turn[] = [];
 
 export const resetHistory = (): void => {
   history = [];
+  // reset markov transition counts back to neutral priors (1)
+  for (const windowKey of Object.keys(lastThreeHistory)) {
+    const bucket = lastThreeHistory[windowKey];
+    bucket["rock"] = 1;
+    bucket["paper"] = 1;
+    bucket["scissors"] = 1;
+  }
 };
 
 export type Turn = {
@@ -33,7 +42,7 @@ export const randomComputerMove = (): Move => {
   return MOVES[index];
 };
 
-export const smartComputerMove = (): Move => {
+export const ogMarkov = (): Move => {
   //100 possible outcomes, can give a range of probilities for each move
   const probability = Math.floor(Math.random() * 100);
   if (history.length === 0) {
@@ -77,6 +86,13 @@ export const determineOutcome = (
     outcome = "lose";
   }
 
+  //add to markov tables here
+  if (history.length >= 3)
+  {
+    const window = getWindow(3);
+    lastThreeHistory[window][playerMove]++;
+  }
+
   history = [
     ...history,
     {
@@ -118,11 +134,134 @@ export const singleOrderMarkov = (): Move =>
   return MOVES[(MOVES.indexOf(lastTurn.player) + 2) % 3]
 };
 
-export type GameVersion = 0 | 1;
+export const markovChain = (
+  n: number,
+): Move =>
+{
+  //if this is not 
+  if (history.length < n)
+  {
+    return randomComputerMove();
+  }
+  
+  const window: string = getWindow(n);
+
+  const rocks: number = lastThreeHistory[window]["rock"];
+  const papers: number = lastThreeHistory[window]["paper"];
+  const scissors: number = lastThreeHistory[window]["scissors"];
+
+  //chunky if statement for if one is more than the other two
+  if (rocks > papers && rocks > scissors)
+  {
+    return "paper";
+  }
+  else if (papers > rocks && papers > scissors)
+  {
+    return "scissors";
+  }
+  else if (scissors > papers && scissors > rocks)
+  {
+    return "rock";
+  }
+
+  const probabilities: Record<Move, number> = {
+    "rock": 36,
+    "paper": 33,
+    "scissors": 31,
+  };
+
+  //another chunky if statement for if two are tied
+  //paper not tied
+  if (rocks > papers && scissors > papers)
+  {
+    const num = Math.random() * (probabilities["rock"] + probabilities["scissors"]);
+
+    if (num < probabilities["rock"])
+    {
+      //chosen they will choose rock, choose paper
+      return "paper"
+    }
+    else
+    {
+      //chosen they will choose scissors, choose rock
+      return "rock";
+    }
+  }
+  //rock not tied
+  else if (papers > rocks && scissors > rocks)
+  {
+    const num = Math.random() * (probabilities["paper"] + probabilities["scissors"]);
+
+    if (num < probabilities["paper"])
+    {
+      //chosen they will choose paper, choose scissors
+      return "scissors"
+    }
+    else
+    {
+      //chosen they will choose scissors, choose rock
+      return "rock";
+    }
+  }
+  //scissors not tied
+  else if (rocks > scissors && papers > scissors)
+  {
+    const num = Math.random() * (probabilities["rock"] + probabilities["paper"]);
+
+    if (num < probabilities["rock"])
+    {
+      //chosen they will choose rock, choose paper
+      return "paper"
+    }
+    else
+    {
+      //chosen they will choose paper, choose scissors
+      return "scissors";
+    }
+  }
+
+  //if all are even, throw a random move with weighted probabilities
+  return randomComputerMove();
+};
+
+export const getWindow = (n: number): string =>
+{
+  //start with an empty string
+  let window: string = "";
+
+  for (let i = 0; i < n; i++)
+  {
+    //get the nth closest to the end, then the (n-1)th, etc.
+    const curMove = history.at(-1 * (n - i))?.player;
+
+    //translating this string into a char, then concatenating
+    if (curMove === MOVES[0])
+    {
+      window = window + "R";
+    }
+    else if (curMove === MOVES[1])
+    {
+      window = window + "P";
+    }
+    else if (curMove === MOVES[2])
+    {
+      window = window + "S";
+    }
+    else
+    {
+      throw new Error("Not rock paper or scissors.");
+    }
+  }
+
+  return window;
+}
+
+export type GameVersion = 0 | 1 | 2;
 
 export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
   0: randomComputerMove,
-  1: smartComputerMove,
+  1: ogMarkov,
+  2: () => markovChain(3),
 };
 
 export const getComputerMoveForVersion = (
