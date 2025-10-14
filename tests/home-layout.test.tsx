@@ -6,6 +6,9 @@ import Home from "../src/app/page";
 test("home page brain power selector is responsive", () => {
   const markup = renderToStaticMarkup(<Home />);
 
+  assert.match(markup, /Record/);
+  assert.match(markup, /Wins - Ties - Losses/);
+  assert.match(markup, /Streak/);
   assert.match(markup, /Brain Power Level/);
   assert.match(markup, /Kindergarden/);
   assert.match(markup, /Elementary/);

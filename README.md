@@ -6,6 +6,7 @@ A minimalist, single-page Rock Paper Scissors experience built with Next.js (App
 
 - 🎮 Play Rock Paper Scissors against the computer with large, emoji-based controls.
 - 🔀 Toggle between computer strategy versions (random or smart) using the selector at the top of the screen.
+- 📊 Track your Wins-Ties-Losses record and hot/cold streak directly above the strategy selector.
 - 📘 Learn how each computer strategy works on the dedicated About page, linked from the top-right corner of the interface.
 - 🖥️ Responsive design keeps the interface centred and readable on all screen sizes.
 - ☁️ Serverless-ready API endpoint prepared for persisting game results to Supabase in order to track computer win percentage.

@@ -11,6 +11,13 @@ import {
   type GameOutcome,
   type Move,
 } from "../lib/game";
+import {
+  getStreakBadge,
+  initialGameRecord,
+  initialStreakState,
+  updateGameRecord,
+  updateStreakState,
+} from "../lib/score";
 
 type GameResult = {
   playerMove: Move;
@@ -37,6 +44,8 @@ export default function Home() {
   const [computerMove, setComputerMove] = useState<Move | null>(null);
   const [outcome, setOutcome] = useState<GameOutcome | null>(null);
   const [gameVersion, setGameVersion] = useState<GameVersion>(2);
+  const [record, setRecord] = useState(() => ({ ...initialGameRecord }));
+  const [streak, setStreak] = useState(() => ({ ...initialStreakState }));
 
   const lastMoveEmoji = useMemo(() => {
     if (!computerMove) {
@@ -55,6 +64,8 @@ export default function Home() {
 
       setComputerMove(nextComputerMove);
       setOutcome(nextOutcome);
+      setRecord((previousRecord) => updateGameRecord(previousRecord, nextOutcome));
+      setStreak((previousStreak) => updateStreakState(previousStreak, nextOutcome));
 
       void recordGameResult({
         playerMove,
@@ -72,46 +83,70 @@ export default function Home() {
     [],
   );
 
+  const totalGames = record.wins + record.ties + record.losses;
+  const recordDisplay =
+    totalGames > 0
+      ? `${record.wins} - ${record.ties} - ${record.losses} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
+      : "Wins - Ties - Losses";
+  const streakDisplay =
+    streak.outcome !== null ? `${getStreakBadge(streak.outcome)}${streak.count}` : "—";
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-transparent">
       <div
         className="flex flex-col items-center gap-4 px-6 text-center sm:pt-24"
         style={{ paddingTop: "calc(5rem + env(safe-area-inset-top))" }}
       >
-        <label
-          htmlFor="game-version"
-          className="relative flex w-full max-w-md flex-col items-stretch gap-2 rounded-3xl bg-white/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow sm:max-w-2xl sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:text-base"
-        >
-          <span className="text-center sm:text-left">Brain Power Level</span>
-          <div className="relative w-full sm:w-auto">
-            <select
-              id="game-version"
-              value={gameVersion}
-              onChange={handleVersionChange}
-              className="w-full appearance-none rounded-full bg-white/20 px-4 py-2 pr-10 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:px-4 [&>option]:py-2 [&>option]:font-medium [&>option]:text-[#fefce8] [&>option]:hover:bg-[#166534] [&>option]:checked:bg-[#166534]"
-            >
-              <option value={0} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                Kindergarden
-              </option>
-              <option value={1} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                Elementary
-              </option>
-              <option value={2} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                Junior High
-              </option>
-            </select>
-            {/* custom caret to match site style */}
-            <svg
-              className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/80 sm:right-2"
-              viewBox="0 0 20 20"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden
-            >
-              <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+        <div className="flex w-full max-w-md flex-col items-stretch gap-4 sm:max-w-2xl">
+          <div className="flex flex-col gap-4 rounded-3xl bg-white/10 px-5 py-4 text-white shadow sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col items-center gap-1 sm:items-start">
+              <span className="text-xs font-semibold uppercase tracking-wide text-white/70">Record</span>
+              <span aria-live="polite" className="text-lg font-semibold tracking-tight sm:text-xl">
+                {recordDisplay}
+              </span>
+            </div>
+            <div className="flex flex-col items-center gap-1 sm:items-end">
+              <span className="text-xs font-semibold uppercase tracking-wide text-white/70">Streak</span>
+              <span aria-live="polite" className="text-lg font-semibold tracking-tight sm:text-xl">
+                {streakDisplay}
+              </span>
+            </div>
           </div>
-        </label>
+          <label
+            htmlFor="game-version"
+            className="relative flex w-full flex-col items-stretch gap-2 rounded-3xl bg-white/10 px-5 py-3 text-sm font-semibold uppercase tracking-wide text-white shadow sm:flex-row sm:items-center sm:justify-between sm:gap-3 sm:text-base"
+          >
+            <span className="text-center sm:text-left">Brain Power Level</span>
+            <div className="relative w-full sm:w-auto">
+              <select
+                id="game-version"
+                value={gameVersion}
+                onChange={handleVersionChange}
+                className="w-full appearance-none rounded-full bg-white/20 px-4 py-2 pr-10 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:px-4 [&>option]:py-2 [&>option]:font-medium [&>option]:text-[#fefce8] [&>option]:hover:bg-[#166534] [&>option]:checked:bg-[#166534]"
+              >
+                <option value={0} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Kindergarden
+                </option>
+                <option value={1} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Elementary
+                </option>
+                <option value={2} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Junior High
+                </option>
+              </select>
+              {/* custom caret to match site style */}
+              <svg
+                className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-white/80 sm:right-2"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden
+              >
+                <path d="M6 8l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </label>
+        </div>
       </div>
       <div className="flex flex-1 flex-col items-center justify-center gap-12 px-6 pb-16 text-center">
         <div className="text-[clamp(8rem,18vw,14rem)] font-semibold leading-none">{lastMoveEmoji}</div>
