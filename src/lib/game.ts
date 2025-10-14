@@ -144,11 +144,11 @@ export const markovChain = (
     return randomComputerMove();
   }
   
-  let window: string = getWindow(n);
+  const window: string = getWindow(n);
 
-  let rocks: number = lastThreeHistory[window]["rock"];
-  let papers: number = lastThreeHistory[window]["paper"];
-  let scissors: number = lastThreeHistory[window]["scissors"];
+  const rocks: number = lastThreeHistory[window]["rock"];
+  const papers: number = lastThreeHistory[window]["paper"];
+  const scissors: number = lastThreeHistory[window]["scissors"];
 
   //chunky if statement for if one is more than the other two
   if (rocks > papers && rocks > scissors)
@@ -174,7 +174,7 @@ export const markovChain = (
   //paper not tied
   if (rocks > papers && scissors > papers)
   {
-    let num = Math.random() * (probabilities["rock"] + probabilities["scissors"]);
+    const num = Math.random() * (probabilities["rock"] + probabilities["scissors"]);
 
     if (num < probabilities["rock"])
     {
@@ -190,7 +190,7 @@ export const markovChain = (
   //rock not tied
   else if (papers > rocks && scissors > rocks)
   {
-    let num = Math.random() * (probabilities["paper"] + probabilities["scissors"]);
+    const num = Math.random() * (probabilities["paper"] + probabilities["scissors"]);
 
     if (num < probabilities["paper"])
     {
@@ -206,7 +206,7 @@ export const markovChain = (
   //scissors not tied
   else if (rocks > scissors && papers > scissors)
   {
-    let num = Math.random() * (probabilities["rock"] + probabilities["paper"]);
+    const num = Math.random() * (probabilities["rock"] + probabilities["paper"]);
 
     if (num < probabilities["rock"])
     {
@@ -232,7 +232,7 @@ export const getWindow = (n: number): string =>
   for (let i = 0; i < n; i++)
   {
     //get the nth closest to the end, then the (n-1)th, etc.
-    let curMove = history.at(-1 * (n - i))?.player;
+    const curMove = history.at(-1 * (n - i))?.player;
 
     //translating this string into a char, then concatenating
     if (curMove === MOVES[0])

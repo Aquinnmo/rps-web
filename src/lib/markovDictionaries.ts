@@ -5,7 +5,7 @@ import { Move } from "./game";
 //second key is the value of each move
 export type MarkovHistory = Record<string, Record<Move, number>>;
 
-export let lastThreeHistory: MarkovHistory = {
+export const lastThreeHistory: MarkovHistory = {
   "RRR": {"rock": 1, "paper": 1, "scissors": 1},
   "RRP": {"rock": 1, "paper": 1, "scissors": 1},
   "RRS": {"rock": 1, "paper": 1, "scissors": 1},
