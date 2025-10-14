@@ -36,7 +36,7 @@ const recordGameResult = async (result: GameResult) => {
 export default function Home() {
   const [computerMove, setComputerMove] = useState<Move | null>(null);
   const [outcome, setOutcome] = useState<GameOutcome | null>(null);
-  const [gameVersion, setGameVersion] = useState<GameVersion>(1);
+  const [gameVersion, setGameVersion] = useState<GameVersion>(2);
 
   const lastMoveEmoji = useMemo(() => {
     if (!computerMove) {
