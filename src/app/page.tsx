@@ -73,11 +73,11 @@ export default function Home() {
   );
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center gap-12 bg-transparent text-center">
-      <div className="absolute top-6 flex w-full justify-center">
+    <div className="relative flex min-h-screen w-full flex-col items-center justify-center gap-12 bg-transparent px-4 pt-32 text-center sm:px-0 sm:pt-0">
+      <div className="absolute inset-x-0 top-24 flex justify-center px-2 sm:top-6 sm:px-0">
         <label
           htmlFor="game-version"
-          className="relative flex items-center gap-3 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white shadow"
+          className="relative flex w-full max-w-xs items-center gap-3 rounded-full bg-white/10 px-5 py-2 text-sm font-semibold uppercase tracking-wide text-white shadow sm:w-auto sm:max-w-none"
         >
           <span>Brain Power Level</span>
           <div className="relative">
@@ -85,7 +85,7 @@ export default function Home() {
               id="game-version"
               value={gameVersion}
               onChange={handleVersionChange}
-              className="appearance-none rounded-full bg-white/20 px-4 py-1 pr-8 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:text-[#fefce8] [&>option]:py-2 [&>option]:px-4 [&>option]:font-medium [&>option]:checked:bg-[#166534] [&>option]:hover:bg-[#166534]"
+              className="w-full appearance-none rounded-full bg-white/20 px-4 py-1 pr-8 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring sm:w-auto [&>option]:bg-[#14532d] [&>option]:text-[#fefce8] [&>option]:py-2 [&>option]:px-4 [&>option]:font-medium [&>option]:checked:bg-[#166534] [&>option]:hover:bg-[#166534]"
             >
               <option value={0} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Kindergarden</option>
               <option value={1} className="bg-[#14532d] text-[#fefce8] py-2 px-4 font-medium hover:bg-[#166534]">Elementary</option>

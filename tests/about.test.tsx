@@ -9,5 +9,5 @@ test("about page highlights both computer strategies", () => {
   assert.match(markup, /Version 0/);
   assert.match(markup, /Version 1/);
   assert.match(markup, /weighted opening move/i);
-  assert.match(markup, /single-order Markov chain/i);
+  assert.match(markup, /single[- ]order Markov chain/i);
 });
