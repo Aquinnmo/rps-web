@@ -86,7 +86,7 @@ export default function Home() {
   const totalGames = record.wins + record.ties + record.losses;
   const recordDisplay =
     totalGames > 0
-      ? `${record.wins} - ${record.ties} - ${record.losses}`
+      ? `${record.wins} - ${record.ties} - ${record.losses} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
       : "Wins - Ties - Losses";
   const streakDisplay =
     streak.outcome !== null ? `${getStreakBadge(streak.outcome)} ${streak.count}` : "—";
