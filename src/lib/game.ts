@@ -1,4 +1,4 @@
-import { lastThreeHistory } from "./markovDictionaries";
+import { MarkovHistory, lastThreeHistory } from "./markovDictionaries";
 
 export const MOVES = ["rock", "paper", "scissors"] as const;
 
@@ -135,6 +135,7 @@ export const singleOrderMarkov = (): Move =>
 };
 
 export const markovChain = (
+  context: MarkovHistory,
   n: number,
 ): Move =>
 {
@@ -146,9 +147,9 @@ export const markovChain = (
   
   const window: string = getWindow(n);
 
-  const rocks: number = lastThreeHistory[window]["rock"];
-  const papers: number = lastThreeHistory[window]["paper"];
-  const scissors: number = lastThreeHistory[window]["scissors"];
+  const rocks: number = context[window]["rock"];
+  const papers: number = context[window]["paper"];
+  const scissors: number = context[window]["scissors"];
 
   //chunky if statement for if one is more than the other two
   if (rocks > papers && rocks > scissors)
@@ -261,7 +262,7 @@ export type GameVersion = 0 | 1 | 2;
 export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
   0: randomComputerMove,
   1: ogMarkov,
-  2: () => markovChain(3),
+  2: () => markovChain(lastThreeHistory, 3),
 };
 
 export const getComputerMoveForVersion = (
