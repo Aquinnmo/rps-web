@@ -134,7 +134,7 @@ export const markov5 = (
     if (move === notMove || notMove === null)
     {
       //if the odd moves out are the same, continue down chain
-      return markov3(notMove);
+      return markov3(move);
     }
     else
     {
@@ -154,36 +154,20 @@ export const markov5 = (
   }
 };
 
-export const markov7 = (
-  notMove: Move | null
-): Move =>
+export const markov7 = (): Move =>
 {
   const bucket = lastSevenHistory[getWindow(7)];
   const result = bucketComparison(bucket);
   if (result === 3)
   {
-    return markov5(notMove);
+    return markov5(null);
   }
   else if (result === 2)
   {
     //there is a tie
     const move: Move = oddMoveOut(bucket);
-    if (move === notMove || notMove === null)
-    {
-      //if the odd moves out are the same, continue down chain
-      return markov5(notMove);
-    }
-    else
-    {
-      //odd moves out are different, return what is not either odd move out
-      if ((notMove === "rock" || move === "rock") && (notMove === "paper" || move === "paper")) {
-        return "scissors";
-      } else if ((notMove === "scissors" || move === "scissors") && (notMove === "paper" || move === "paper")) {
-        return "rock";
-      } else {
-        return "paper";
-      }
-    }
+    //move down the chain
+    return markov5(move);
   }
   else
   {
@@ -195,7 +179,7 @@ export const dynamicMarkov = (): Move =>
 {
   if (history.length >= 7)
   {
-    return markov7(null);
+    return markov7();
   }
   else if (history.length >= 5)
   {
