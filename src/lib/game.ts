@@ -80,6 +80,177 @@ export const ogMarkov = (): Move => {
   }
 };
 
+export const markov3 = (
+  notMove: Move | null
+): Move =>
+{
+  const bucket = lastThreeHistory[getWindow(3)];
+  let result = bucketComparison(bucket);
+  if (result === 3)
+  {
+    return ogMarkov();
+  }
+  else if (result === 2)
+  {
+    //there is a tie
+    const move: Move = oddMoveOut(bucket);
+    if (move === notMove || notMove === null)
+    {
+      //if the odd moves out are the same, continue down chain
+      return ogMarkov();
+    }
+    else
+    {
+      //odd moves out are different, return what is not either odd move out
+      if ((notMove === "rock" || move === "rock") && (notMove === "paper" || move === "paper")) {
+        return "scissors";
+      } else if ((notMove === "scissors" || move === "scissors") && (notMove === "paper" || move === "paper")) {
+        return "rock";
+      } else {
+        return "paper";
+      }
+    }
+  }
+  else
+  {
+    return markovChain(lastThreeHistory, 3);
+  }
+};
+
+export const markov5 = (
+  notMove: Move | null
+): Move =>
+{
+  const bucket = lastFiveHistory[getWindow(5)];
+  let result = bucketComparison(bucket);
+  if (result === 3)
+  {
+    return markov3(notMove);
+  }
+  else if (result === 2)
+  {
+    //there is a tie
+    const move: Move = oddMoveOut(bucket);
+    if (move === notMove || notMove === null)
+    {
+      //if the odd moves out are the same, continue down chain
+      return markov3(notMove);
+    }
+    else
+    {
+      //odd moves out are different, return what is not either odd move out
+      if ((notMove === "rock" || move === "rock") && (notMove === "paper" || move === "paper")) {
+        return "scissors";
+      } else if ((notMove === "scissors" || move === "scissors") && (notMove === "paper" || move === "paper")) {
+        return "rock";
+      } else {
+        return "paper";
+      }
+    }
+  }
+  else
+  {
+    return markovChain(lastFiveHistory, 5);
+  }
+};
+
+export const markov7 = (
+  notMove: Move | null
+): Move =>
+{
+  const bucket = lastSevenHistory[getWindow(7)];
+  let result = bucketComparison(bucket);
+  if (result === 3)
+  {
+    return markov5(notMove);
+  }
+  else if (result === 2)
+  {
+    //there is a tie
+    const move: Move = oddMoveOut(bucket);
+    if (move === notMove || notMove === null)
+    {
+      //if the odd moves out are the same, continue down chain
+      return markov5(notMove);
+    }
+    else
+    {
+      //odd moves out are different, return what is not either odd move out
+      if ((notMove === "rock" || move === "rock") && (notMove === "paper" || move === "paper")) {
+        return "scissors";
+      } else if ((notMove === "scissors" || move === "scissors") && (notMove === "paper" || move === "paper")) {
+        return "rock";
+      } else {
+        return "paper";
+      }
+    }
+  }
+  else
+  {
+    return markovChain(lastSevenHistory, 7);
+  }
+};
+
+export const dynamicMarkov = (): Move => 
+{
+  if (history.length >= 7)
+  {
+    return markov7(null);
+  }
+  else if (history.length >= 5)
+  {
+    return markov5(null);
+  }
+  else if (history.length >= 3)
+  {
+    return markov3(null);
+  }
+  else if (history.length >= 1)
+  {
+    return ogMarkov();
+  }
+  else
+  {
+    return randomComputerMove();
+  }
+};
+
+//returns 3 if all moves have equal probability
+//returns 2 if two probabilities are tied
+//returns 1 if there is a clear choice
+const bucketComparison = (bucket: Record<Move, number>): number =>
+{
+  //all probabilities are equal
+  if (bucket["rock"] === bucket["paper"] && bucket["rock"] === bucket["scissors"])
+  {
+    return 3;
+  }
+  //two moves are equal
+  else if (bucket["rock"] === bucket["paper"] || bucket["rock"] === bucket["scissors"] || bucket["paper"] === bucket["scissors"])
+  {
+    return 2;
+  }
+
+  //no probabilities are equal
+  return 1;
+};
+
+const oddMoveOut = (bucket: Record<Move, number>): Move =>
+{
+  if (bucket["rock"] < bucket["paper"])
+  {
+    return "rock";
+  }
+  else if (bucket["paper"] < bucket["rock"])
+  {
+    return "paper";
+  }
+  else
+  {
+    return "scissors";
+  }
+};
+
 export const determineOutcome = (
   playerMove: Move,
   computerMove: Move,
@@ -279,9 +450,9 @@ export const getWindow = (n: number): string =>
   }
 
   return window;
-}
+};
 
-export type GameVersion = 0 | 1 | 2 | 3 | 4;
+export type GameVersion = 0 | 1 | 2 | 3 | 4 | 5;
 
 export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
   0: randomComputerMove,
@@ -289,6 +460,7 @@ export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
   2: () => markovChain(lastThreeHistory, 3),
   3: () => markovChain(lastFiveHistory, 5),
   4: () => markovChain(lastSevenHistory, 7),
+  5: () => dynamicMarkov(),
 };
 
 export const getComputerMoveForVersion = (
