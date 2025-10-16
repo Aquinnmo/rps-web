@@ -43,7 +43,7 @@ const recordGameResult = async (result: GameResult) => {
 export default function Home() {
   const [computerMove, setComputerMove] = useState<Move | null>(null);
   const [outcome, setOutcome] = useState<GameOutcome | null>(null);
-  const [gameVersion, setGameVersion] = useState<GameVersion>(2);
+  const [gameVersion, setGameVersion] = useState<GameVersion>(4);
   const [record, setRecord] = useState(() => ({ ...initialGameRecord }));
   const [streak, setStreak] = useState(() => ({ ...initialStreakState }));
 

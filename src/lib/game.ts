@@ -21,6 +21,18 @@ export const resetHistory = (): void => {
     bucket["paper"] = 1;
     bucket["scissors"] = 1;
   }
+  for (const windowKey of Object.keys(lastFiveHistory)) {
+    const bucket = lastFiveHistory[windowKey];
+    bucket["rock"] = 1;
+    bucket["paper"] = 1;
+    bucket["scissors"] = 1;
+  }
+  for (const windowKey of Object.keys(lastSevenHistory)) {
+    const bucket = lastSevenHistory[windowKey];
+    bucket["rock"] = 1;
+    bucket["paper"] = 1;
+    bucket["scissors"] = 1;
+  }
 };
 
 export type Turn = {
@@ -91,6 +103,18 @@ export const determineOutcome = (
   {
     const window = getWindow(3);
     lastThreeHistory[window][playerMove]++;
+  }
+
+  if (history.length >= 5)
+  {
+    const window = getWindow(5);
+    lastFiveHistory[window][playerMove]++;
+  }
+ 
+  if (history.length >= 7)
+  {
+    const window = getWindow(7);
+    lastSevenHistory[window][playerMove]++;
   }
 
   history = [
