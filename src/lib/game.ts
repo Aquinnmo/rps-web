@@ -210,7 +210,9 @@ const bucketComparison = (bucket: Record<Move, number>): number =>
     return 3;
   }
   //two moves are equal
-  else if (bucket["rock"] === bucket["paper"] || bucket["rock"] === bucket["scissors"] || bucket["paper"] === bucket["scissors"])
+  else if (bucket["rock"] === bucket["paper"]  && bucket["rock"] > bucket["scissors"]
+    || bucket["rock"] === bucket["scissors"] && bucket["rock"] > bucket["paper"]
+    || bucket["paper"] === bucket["scissors"] && bucket["paper"] > bucket["rock"])
   {
     return 2;
   }
@@ -225,7 +227,7 @@ const oddMoveOut = (bucket: Record<Move, number>): Move =>
   {
     return "rock";
   }
-  else if (bucket["paper"] < bucket["rock"])
+  else if (bucket["paper"] < bucket["scissors"])
   {
     return "paper";
   }
