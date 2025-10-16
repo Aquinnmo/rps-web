@@ -85,7 +85,7 @@ export const markov3 = (
 ): Move =>
 {
   const bucket = lastThreeHistory[getWindow(3)];
-  let result = bucketComparison(bucket);
+  const result = bucketComparison(bucket);
   if (result === 3)
   {
     return ogMarkov();
@@ -122,7 +122,7 @@ export const markov5 = (
 ): Move =>
 {
   const bucket = lastFiveHistory[getWindow(5)];
-  let result = bucketComparison(bucket);
+  const result = bucketComparison(bucket);
   if (result === 3)
   {
     return markov3(notMove);
@@ -159,7 +159,7 @@ export const markov7 = (
 ): Move =>
 {
   const bucket = lastSevenHistory[getWindow(7)];
-  let result = bucketComparison(bucket);
+  const result = bucketComparison(bucket);
   if (result === 3)
   {
     return markov5(notMove);
