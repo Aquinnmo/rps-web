@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const sections = [
   {
-    title: "[IN DEVELOPMENT] Senior – Dynamic Order Markov Chain",
+    title: "Undergraduate – Dynamic Order Markov Chain",
     summary:
       "This model dynamically chooses the Markov Chain model based on the available context.",
     details: [
@@ -12,7 +12,7 @@ const sections = [
     ],
   },
   {
-    title: "Junior – Order Seven Markov Chain",
+    title: "Senior – Order Seven Markov Chain",
     summary:
       "Version 4 is an extension of Versions 3 and 2, but with a 7 move long context window.",
     details: [
@@ -20,7 +20,7 @@ const sections = [
     ],
   },
   {
-    title: "Sophmore – Order Five Markov Chain",
+    title: "Junior – Order Five Markov Chain",
     summary:
       "Version 3 is an extension of Version 2, this time with an extended context window up to 5 moves long.",
     details: [
@@ -28,7 +28,7 @@ const sections = [
     ],
   },
   {
-    title: "Freshman – Order Three Markov Chain",
+    title: "Sophmore – Order Three Markov Chain",
     summary:
       "Version 2 starts with a weighted opening move for the first four turns. It then uses the last three moves to predict the next move.",
     details: [
@@ -38,7 +38,7 @@ const sections = [
     ],
   },
   {
-    title: "Elementary – Single Order Markov Model",
+    title: "Freshman – Single Order Markov Model",
     summary:
       "Version 1 starts with a weighted opening move from Version 0 and then adapts based on the players last turn. It does this through a single-order Markov chain.",
     details: [
@@ -48,7 +48,7 @@ const sections = [
     ],
   },
   {
-    title: "Kindergarden – Weighted Random Probabilities",
+    title: "Elementary – Weighted Random Probabilities",
     summary:
       "The original computer opponent pulls from a simple random generator. The probability of the computer's move is based on empirical data synthesized from multiple studies.",
     details: [

@@ -125,19 +125,22 @@ export default function Home() {
                 className="w-full appearance-none rounded-full bg-white/20 px-4 py-2 pr-10 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:px-4 [&>option]:py-2 [&>option]:font-medium [&>option]:text-[#fefce8] [&>option]:hover:bg-[#166534] [&>option]:checked:bg-[#166534]"
               >
                 <option value={0} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                  Kindergarden
-                </option>
-                <option value={1} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
                   Elementary
                 </option>
-                <option value={2} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                <option value={1} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
                   Freshman
                 </option>
-                <option value={3} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                <option value={2} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
                   Sophmore
                 </option>
-                <option value={4} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                <option value={3} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
                   Junior
+                </option>
+                <option value={4} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Senior
+                </option>
+                <option value={5} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Undergraduate
                 </option>
               </select>
               {/* custom caret to match site style */}

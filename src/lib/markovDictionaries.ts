@@ -7,7 +7,6 @@ export type MarkovHistory = Record<string, Record<Move, number>>;
 
 // Generate all possible combinations for n-length history
 export function generateMarkovContext(n: number): MarkovHistory {
-  const moves: Move[] = ["rock", "paper", "scissors"];
   const letters = ["R", "P", "S"];
   const result: MarkovHistory = {};
 
