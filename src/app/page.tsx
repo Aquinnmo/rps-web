@@ -131,7 +131,13 @@ export default function Home() {
                   Elementary
                 </option>
                 <option value={2} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                  Junior High
+                  Freshman
+                </option>
+                <option value={3} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Sophmore
+                </option>
+                <option value={4} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Junior
                 </option>
               </select>
               {/* custom caret to match site style */}
