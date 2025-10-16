@@ -1,4 +1,4 @@
-import { MarkovHistory, lastThreeHistory } from "./markovDictionaries";
+import { MarkovHistory, lastFiveHistory, lastSevenHistory, lastThreeHistory } from "./markovDictionaries";
 
 export const MOVES = ["rock", "paper", "scissors"] as const;
 
@@ -257,12 +257,14 @@ export const getWindow = (n: number): string =>
   return window;
 }
 
-export type GameVersion = 0 | 1 | 2;
+export type GameVersion = 0 | 1 | 2 | 3 | 4;
 
 export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
   0: randomComputerMove,
   1: ogMarkov,
   2: () => markovChain(lastThreeHistory, 3),
+  3: () => markovChain(lastFiveHistory, 5),
+  4: () => markovChain(lastSevenHistory, 7),
 };
 
 export const getComputerMoveForVersion = (
