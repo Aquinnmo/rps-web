@@ -43,7 +43,7 @@ const recordGameResult = async (result: GameResult) => {
 export default function Home() {
   const [computerMove, setComputerMove] = useState<Move | null>(null);
   const [outcome, setOutcome] = useState<GameOutcome | null>(null);
-  const [gameVersion, setGameVersion] = useState<GameVersion>(2);
+  const [gameVersion, setGameVersion] = useState<GameVersion>(4);
   const [record, setRecord] = useState(() => ({ ...initialGameRecord }));
   const [streak, setStreak] = useState(() => ({ ...initialStreakState }));
 
@@ -86,8 +86,8 @@ export default function Home() {
   const totalGames = record.wins + record.ties + record.losses;
   const recordDisplay =
     totalGames > 0
-      ? `${record.wins} - ${record.ties} - ${record.losses} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
-      : "Wins - Ties - Losses";
+      ? `${record.wins} - ${record.losses} - ${record.ties} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
+      : "Wins - Losses - Ties";
   const streakDisplay =
     streak.outcome !== null ? `${getStreakBadge(streak.outcome)}${streak.count}` : "—";
 
@@ -131,7 +131,13 @@ export default function Home() {
                   Elementary
                 </option>
                 <option value={2} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                  Junior High
+                  Freshman
+                </option>
+                <option value={3} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Sophmore
+                </option>
+                <option value={4} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
+                  Junior
                 </option>
               </select>
               {/* custom caret to match site style */}

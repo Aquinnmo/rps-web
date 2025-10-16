@@ -1,4 +1,4 @@
-import { lastThreeHistory } from "./markovDictionaries";
+import { MarkovHistory, lastFiveHistory, lastSevenHistory, lastThreeHistory } from "./markovDictionaries";
 
 export const MOVES = ["rock", "paper", "scissors"] as const;
 
@@ -17,6 +17,18 @@ export const resetHistory = (): void => {
   // reset markov transition counts back to neutral priors (1)
   for (const windowKey of Object.keys(lastThreeHistory)) {
     const bucket = lastThreeHistory[windowKey];
+    bucket["rock"] = 1;
+    bucket["paper"] = 1;
+    bucket["scissors"] = 1;
+  }
+  for (const windowKey of Object.keys(lastFiveHistory)) {
+    const bucket = lastFiveHistory[windowKey];
+    bucket["rock"] = 1;
+    bucket["paper"] = 1;
+    bucket["scissors"] = 1;
+  }
+  for (const windowKey of Object.keys(lastSevenHistory)) {
+    const bucket = lastSevenHistory[windowKey];
     bucket["rock"] = 1;
     bucket["paper"] = 1;
     bucket["scissors"] = 1;
@@ -93,6 +105,18 @@ export const determineOutcome = (
     lastThreeHistory[window][playerMove]++;
   }
 
+  if (history.length >= 5)
+  {
+    const window = getWindow(5);
+    lastFiveHistory[window][playerMove]++;
+  }
+ 
+  if (history.length >= 7)
+  {
+    const window = getWindow(7);
+    lastSevenHistory[window][playerMove]++;
+  }
+
   history = [
     ...history,
     {
@@ -135,6 +159,7 @@ export const singleOrderMarkov = (): Move =>
 };
 
 export const markovChain = (
+  context: MarkovHistory,
   n: number,
 ): Move =>
 {
@@ -146,9 +171,9 @@ export const markovChain = (
   
   const window: string = getWindow(n);
 
-  const rocks: number = lastThreeHistory[window]["rock"];
-  const papers: number = lastThreeHistory[window]["paper"];
-  const scissors: number = lastThreeHistory[window]["scissors"];
+  const rocks: number = context[window]["rock"];
+  const papers: number = context[window]["paper"];
+  const scissors: number = context[window]["scissors"];
 
   //chunky if statement for if one is more than the other two
   if (rocks > papers && rocks > scissors)
@@ -256,12 +281,14 @@ export const getWindow = (n: number): string =>
   return window;
 }
 
-export type GameVersion = 0 | 1 | 2;
+export type GameVersion = 0 | 1 | 2 | 3 | 4;
 
 export const COMPUTER_MOVE_STRATEGIES: Record<GameVersion, () => Move> = {
   0: randomComputerMove,
   1: ogMarkov,
-  2: () => markovChain(3),
+  2: () => markovChain(lastThreeHistory, 3),
+  3: () => markovChain(lastFiveHistory, 5),
+  4: () => markovChain(lastSevenHistory, 7),
 };
 
 export const getComputerMoveForVersion = (

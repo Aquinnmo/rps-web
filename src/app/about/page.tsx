@@ -2,7 +2,33 @@ import Link from "next/link";
 
 const sections = [
   {
-    title: "Junior High – Order Three Markov Chain",
+    title: "[IN DEVELOPMENT] Senior – Dynamic Order Markov Chain",
+    summary:
+      "This model dynamically chooses the Markov Chain model based on the available context.",
+    details: [
+      "The model first looks for if the order seven Markov Chain has a prediction. If it does, this is prioritized.",
+      "It then looks to the order five Markov Chain then the order three model.",
+      "If none has a prediction, it defaults to a weighted random prediction.",
+    ],
+  },
+  {
+    title: "Junior – Order Seven Markov Chain",
+    summary:
+      "Version 4 is an extension of Versions 3 and 2, but with a 7 move long context window.",
+    details: [
+      "The model then needs to learn for the first seven moves, then can start predicting.",
+    ],
+  },
+  {
+    title: "Sophmore – Order Five Markov Chain",
+    summary:
+      "Version 3 is an extension of Version 2, this time with an extended context window up to 5 moves long.",
+    details: [
+      "This model first trains itself for five moves then starts predicting your moves.",
+    ],
+  },
+  {
+    title: "Freshman – Order Three Markov Chain",
     summary:
       "Version 2 starts with a weighted opening move for the first four turns. It then uses the last three moves to predict the next move.",
     details: [
