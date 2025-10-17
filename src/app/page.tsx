@@ -12,33 +12,17 @@ import {
   type Move,
 } from "../lib/game";
 import {
+  GAME_VERSIONS_FOR_BATCHING,
+  recordGameForBatch,
+  type ComputerMovesByVersion,
+} from "../lib/batch";
+import {
   getStreakBadge,
   initialGameRecord,
   initialStreakState,
   updateGameRecord,
   updateStreakState,
 } from "../lib/score";
-
-type GameResult = {
-  playerMove: Move;
-  computerMove: Move;
-  outcome: GameOutcome;
-};
-
-const recordGameResult = async (result: GameResult) => {
-  try {
-    await fetch("/api/results", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(result),
-      keepalive: true,
-    });
-  } catch {
-    // Intentionally swallow errors so the game remains playable if persistence fails.
-  }
-};
 
 export default function Home() {
   const [computerMove, setComputerMove] = useState<Move | null>(null);
@@ -59,7 +43,15 @@ export default function Home() {
 
   const handlePlayerMove = useCallback(
     (playerMove: Move) => {
-      const nextComputerMove = getComputerMoveForVersion(gameVersion);
+      const computerMovesByVersion = GAME_VERSIONS_FOR_BATCHING.reduce(
+        (accumulator, version) => {
+          accumulator[version] = getComputerMoveForVersion(version);
+          return accumulator;
+        },
+        {} as ComputerMovesByVersion,
+      );
+
+      const nextComputerMove = computerMovesByVersion[gameVersion];
       const nextOutcome = determineOutcome(playerMove, nextComputerMove);
 
       setComputerMove(nextComputerMove);
@@ -67,11 +59,7 @@ export default function Home() {
       setRecord((previousRecord) => updateGameRecord(previousRecord, nextOutcome));
       setStreak((previousStreak) => updateStreakState(previousStreak, nextOutcome));
 
-      void recordGameResult({
-        playerMove,
-        computerMove: nextComputerMove,
-        outcome: nextOutcome,
-      });
+      void recordGameForBatch(playerMove, computerMovesByVersion);
     },
     [gameVersion],
   );
@@ -86,8 +74,8 @@ export default function Home() {
   const totalGames = record.wins + record.ties + record.losses;
   const recordDisplay =
     totalGames > 0
-      ? `${record.wins} - ${record.losses} - ${record.ties} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
-      : "Wins - Losses - Ties";
+      ? `${record.wins} - ${record.ties} - ${record.losses} (${(((record.wins * 2 + record.ties) / (totalGames * 2)) * 100).toFixed(2)}%)`
+      : "Wins - Ties - Losses";
   const streakDisplay =
     streak.outcome !== null ? `${getStreakBadge(streak.outcome)}${streak.count}` : "—";
 
@@ -125,7 +113,7 @@ export default function Home() {
                 className="w-full appearance-none rounded-full bg-white/20 px-4 py-2 pr-10 text-base font-medium text-white outline-none ring-white/60 transition focus-visible:ring [&>option]:bg-[#14532d] [&>option]:px-4 [&>option]:py-2 [&>option]:font-medium [&>option]:text-[#fefce8] [&>option]:hover:bg-[#166534] [&>option]:checked:bg-[#166534]"
               >
                 <option value={0} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
-                  Elementary
+                  Kindergarden (Elementary)
                 </option>
                 <option value={1} className="bg-[#14532d] px-4 py-2 font-medium text-[#fefce8] hover:bg-[#166534]">
                   Freshman
