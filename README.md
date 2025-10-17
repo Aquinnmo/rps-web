@@ -9,7 +9,7 @@ A minimalist, single-page Rock Paper Scissors experience built with Next.js (App
 - 📊 Track your Wins-Ties-Losses record and hot/cold streak directly above the strategy selector.
 - 📘 Learn how each computer strategy works on the dedicated About page, linked from the top-right corner of the interface.
 - 🖥️ Responsive design keeps the interface centred and readable on all screen sizes.
-- ☁️ Serverless-ready API endpoint prepared for persisting game results to Supabase in order to track computer win percentage.
+- ☁️ Serverless-ready API endpoint prepared for batching game results and persisting them to Supabase in order to track computer win percentage.
 - ✅ Automated logic tests covering the round outcome calculations.
 
 ## Getting Started
@@ -35,10 +35,10 @@ The project uses ESLint for linting, Node's built-in test runner for unit tests,
 
 ## Environment Variables
 
-To enable result persistence with Supabase, provide the following variables (for example in a `.env.local` file):
+To enable batched result persistence with Supabase, provide the following variables (for example in a `.env.local` file):
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
-- `SUPABASE_RESULTS_TABLE` (optional, defaults to `game_results`)
+- `SUPABASE_BATCHES_TABLE` (optional, defaults to `batches`)
 
-The `/api/results` route validates input before attempting to store it. If the environment variables are not present the game remains fully playable and the API responds with a `202` status so future integration can proceed without code changes.
+The `/api/batches` route validates each batch before attempting to store it. If the environment variables are not present the game remains fully playable and the API responds with a `202` status so future integration can proceed without code changes.

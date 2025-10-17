@@ -69,11 +69,11 @@ export const updateStreakState = (
 export const getStreakBadge = (outcome: GameOutcome): string => {
   switch (outcome) {
     case "win":
-      return "🔥 W";
+      return "W 🔥";
     case "lose":
-      return "🥶 L";
+      return "L 🥶";
     case "draw":
-      return "🤔 T";
+      return "T 🤔";
     default: {
       const exhaustiveCheck: never = outcome;
       throw new Error(`Unknown outcome: ${String(exhaustiveCheck)}`);
