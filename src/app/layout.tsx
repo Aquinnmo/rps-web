@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Rock Paper Scissors",
@@ -24,6 +25,7 @@ export default function RootLayout({
           </Link>
         </header>
         <main>{children}</main>
+        <Analytics/>
       </body>
     </html>
   );
